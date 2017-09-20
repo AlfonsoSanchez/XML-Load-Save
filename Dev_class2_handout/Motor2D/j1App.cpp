@@ -68,6 +68,7 @@ bool j1App::Awake()
 	title.create(app_config.child("title").child_value());
 	organization.create(app_config.child("organization").child_value());
 
+
 	if(ret == true)
 	{
 		p2List_item<j1Module*>* item;
@@ -128,7 +129,7 @@ bool j1App::LoadConfig()
 	bool ret = true;
 
 	pugi::xml_parse_result result = config_file.load_file("config.xml");
-
+	dataDocument.load_file("configtest.xml");
 	if(result == NULL)
 	{
 		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
@@ -138,6 +139,7 @@ bool j1App::LoadConfig()
 	{
 		config = config_file.child("config");
 		app_config = config.child("app");
+		dataNode = dataDocument.child("save");
 	}
 
 	return ret;
@@ -151,14 +153,15 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
-	// TODO 1: This is a good place to call load / Save functions
+	// !! TODO 1: This is a good place to call load / Save functions
 	if (need_save == true)
 	{
 		RealSave();
 	}
 	if (need_load == true)
 	{
-		RealLoad();
+		RealLoad(dataNode);
+		render->RealLoad(dataNode);
 	}
 	
 	
@@ -283,21 +286,24 @@ void j1App::Load()
 	need_load = true;
 }
 
+
+
+
+// !! TODO 3: Create a simulation of the xml file to read 
+
+// !! TODO 4: Create a method to actually load an xml file
+// then call all the modules to load themselves
+void j1App::RealLoad(pugi::xml_node &data)
+{
+	LOG("Cargando");
+	//RealLoad(data);
+	need_load = false;
+
+}
+// TODO 7: Create a method to save the current state
+
 void j1App::RealSave() const
 {
 	LOG("GUARDANDO");
 	need_save = false;
 }
-
-void j1App::RealLoad() 
-{
-	LOG("Cargando");
-	need_load = false;
-}
-// TODO 3: Create a simulation of the xml file to read 
-
-// TODO 4: Create a method to actually load an xml file
-// then call all the modules to load themselves
-
-// TODO 7: Create a method to save the current state
-

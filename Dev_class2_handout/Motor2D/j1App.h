@@ -13,7 +13,7 @@ class j1Textures;
 class j1Audio;
 class j1Scene;
 
-class j1App
+class j1App :public j1Module
 {
 public:
 
@@ -60,7 +60,7 @@ private:
 	bool need_load = false;
 
 	void RealSave()const;
-	void RealLoad();
+	void RealLoad(pugi::xml_node& data);
 
 	// Load config file
 	bool LoadConfig();
@@ -91,6 +91,9 @@ public:
 	j1Scene*			scene;
 
 private:
+
+	pugi::xml_node dataNode;
+	pugi::xml_document dataDocument;
 
 	p2List<j1Module*>	modules;
 	uint				frames;
