@@ -80,7 +80,7 @@ bool j1App::Awake()
 			item = item->next;
 		}
 	}
-
+	
 	return ret;
 }
 
@@ -157,12 +157,15 @@ void j1App::FinishUpdate()
 	if (need_save == true)
 	{
 		RealSave();
+		audio->RealSave();
 		render->RealSave();
+		
 	}
 	if (need_load == true)
 	{
 		RealLoad(dataNode);
 		render->RealLoad(dataNode);
+		audio->RealLoad(dataNode);
 	}
 	
 	
