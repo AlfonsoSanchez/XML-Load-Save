@@ -40,6 +40,7 @@ public:
 	void SetBackgroundColor(SDL_Color color);
 
 	virtual void RealLoad(pugi::xml_node& data);
+	virtual void RealSave();
 public:
 
 	SDL_Renderer*	renderer;

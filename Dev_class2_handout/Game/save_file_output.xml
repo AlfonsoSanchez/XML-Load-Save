@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
-<node>
-	<patata />
-	<metalica gender="4">
-		<rock />
-	</metalica>
-</node>
+<config>
+	<Audio />
+	<Input />
+	<Render>
+		<camera x="0" y="322" />
+	</Render>
+	<Textures />
+	<Window />
+</config>

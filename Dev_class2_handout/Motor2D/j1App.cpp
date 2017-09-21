@@ -157,6 +157,7 @@ void j1App::FinishUpdate()
 	if (need_save == true)
 	{
 		RealSave();
+		render->RealSave();
 	}
 	if (need_load == true)
 	{
@@ -300,11 +301,19 @@ void j1App::RealLoad(pugi::xml_node &data)
 	need_load = false;
 
 }
-// TODO 7: Create a method to save the current state
+// !!TODO 7: Create a method to save the current state
 
 void j1App::RealSave() const
 {
-	pugi::xml_document doc;										//Todo se guarda en un xml_document como una cadena de strings.
+	pugi::xml_document doc;										
+	
+	pugi::xml_node node = doc.append_child("config");
+	node.append_child("Audio");
+	node.append_child("Input");
+	node.append_child("Render");
+	node.append_child("Textures");
+	node.append_child("Window");
+	//Todo se guarda en un xml_document como una cadena de strings.
 																//<?xml version="1.0"?>		Append_child coje a node y crea un hijo pero no se asigna node al nuevo hijo.
 	/*pugi::xml_node node = doc.append_child("node");			//<node>
 	node.append_child("patata");								//<patata />
