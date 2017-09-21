@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <config>
 	<Audio>
-		<Audio volume="-20" />
+		<Audio volume="999" />
 	</Audio>
 	<Input />
 	<Render>
-		<camera x="-160" y="-70" />
+		<camera x="662" y="263" />
 	</Render>
 	<Textures />
 	<Window />

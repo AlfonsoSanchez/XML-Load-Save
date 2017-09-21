@@ -202,7 +202,7 @@ void j1Audio::RealLoad(pugi::xml_node& data)
 	pugi::xml_document doc;
 	if (pugi::xml_parse_result result = doc.load_file("save_file_output.xml"))
 	{
-		data = doc.child("config").child("Audio");
+		data = doc.child("config").child("Audio").child("Audio");
 		volume = data.attribute("volume").as_int();
 		Mix_VolumeMusic(volume);
 	}
