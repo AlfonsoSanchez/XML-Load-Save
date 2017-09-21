@@ -296,7 +296,7 @@ void j1App::Load()
 void j1App::RealLoad(pugi::xml_node &data)
 {
 	LOG("Cargando");
-	//RealLoad(data);
+	
 	need_load = false;
 
 }
@@ -304,6 +304,18 @@ void j1App::RealLoad(pugi::xml_node &data)
 
 void j1App::RealSave() const
 {
+	pugi::xml_document doc;										//Todo se guarda en un xml_document como una cadena de strings.
+																//<?xml version="1.0"?>		Append_child coje a node y crea un hijo pero no se asigna node al nuevo hijo.
+	/*pugi::xml_node node = doc.append_child("node");			//<node>
+	node.append_child("patata");								//<patata />
+	node = node.append_child("metalica");						//<metalica gender="4">
+	node.append_attribute("gender") = 4;													Append_atribute crea un atributo al child que es apuntado por el nodo.
+	node.append_child("rock");									//<rock />
+																//	</metalica> </node>				*/
+	
+	doc.save_file("save_file_output.xml");						// se crea el .xml ponerlo al final para cargar todo el contenido de doc en el documento creado.
+	
+
 	LOG("GUARDANDO");
 	need_save = false;
 }
