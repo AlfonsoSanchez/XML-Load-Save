@@ -42,7 +42,7 @@ j1App::~j1App()
 	// release modules
 	p2List_item<j1Module*>* item = modules.end;
 
-	while(item != NULL)
+	while (item != NULL)
 	{
 		RELEASE(item->data);
 		item = item->prev;
@@ -69,18 +69,18 @@ bool j1App::Awake()
 	organization.create(app_config.child("organization").child_value());
 
 
-	if(ret == true)
+	if (ret == true)
 	{
 		p2List_item<j1Module*>* item;
 		item = modules.start;
 
-		while(item != NULL && ret == true)
+		while (item != NULL && ret == true)
 		{
 			ret = item->data->Awake(config.child(item->data->name.GetString()));
 			item = item->next;
 		}
 	}
-	
+
 	return ret;
 }
 
@@ -91,7 +91,7 @@ bool j1App::Start()
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
 		ret = item->data->Start();
 		item = item->next;
@@ -106,16 +106,16 @@ bool j1App::Update()
 	bool ret = true;
 	PrepareUpdate();
 
-	if(input->GetWindowEvent(WE_QUIT) == true)
+	if (input->GetWindowEvent(WE_QUIT) == true)
 		ret = false;
 
-	if(ret == true)
+	if (ret == true)
 		ret = PreUpdate();
 
-	if(ret == true)
+	if (ret == true)
 		ret = DoUpdate();
 
-	if(ret == true)
+	if (ret == true)
 		ret = PostUpdate();
 
 	FinishUpdate();
@@ -129,8 +129,8 @@ bool j1App::LoadConfig()
 	bool ret = true;
 
 	pugi::xml_parse_result result = config_file.load_file("config.xml");
-	dataDocument.load_file("configtest.xml");
-	if(result == NULL)
+	
+	if (result == NULL)
 	{
 		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
 		ret = false;
@@ -139,7 +139,7 @@ bool j1App::LoadConfig()
 	{
 		config = config_file.child("config");
 		app_config = config.child("app");
-		dataNode = dataDocument.child("save");
+		
 	}
 
 	return ret;
@@ -159,7 +159,7 @@ void j1App::FinishUpdate()
 		RealSave();
 		audio->RealSave();
 		render->RealSave();
-		
+
 	}
 	if (need_load == true)
 	{
@@ -167,8 +167,8 @@ void j1App::FinishUpdate()
 		render->RealLoad(dataNode);
 		audio->RealLoad(dataNode);
 	}
-	
-	
+
+
 
 }
 
@@ -180,11 +180,11 @@ bool j1App::PreUpdate()
 	item = modules.start;
 	j1Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for (item = modules.start; item != NULL && ret == true; item = item->next)
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if (pModule->active == false) {
 			continue;
 		}
 
@@ -202,11 +202,11 @@ bool j1App::DoUpdate()
 	item = modules.start;
 	j1Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for (item = modules.start; item != NULL && ret == true; item = item->next)
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if (pModule->active == false) {
 			continue;
 		}
 
@@ -223,11 +223,11 @@ bool j1App::PostUpdate()
 	p2List_item<j1Module*>* item;
 	j1Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for (item = modules.start; item != NULL && ret == true; item = item->next)
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if (pModule->active == false) {
 			continue;
 		}
 
@@ -244,7 +244,7 @@ bool j1App::CleanUp()
 	p2List_item<j1Module*>* item;
 	item = modules.end;
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
 		ret = item->data->CleanUp();
 		item = item->prev;
@@ -262,7 +262,7 @@ int j1App::GetArgc() const
 // ---------------------------------------
 const char* j1App::GetArgv(int index) const
 {
-	if(index < argc)
+	if (index < argc)
 		return args[index];
 	else
 		return NULL;
@@ -300,7 +300,7 @@ void j1App::Load()
 void j1App::RealLoad(pugi::xml_node &data)
 {
 	LOG("Cargando");
-	
+
 	need_load = false;
 
 }
@@ -308,8 +308,8 @@ void j1App::RealLoad(pugi::xml_node &data)
 
 void j1App::RealSave() const
 {
-	pugi::xml_document doc;										
-	
+	pugi::xml_document doc;
+
 	pugi::xml_node node = doc.append_child("config");
 	node.append_child("Audio");
 	node.append_child("Input");
@@ -317,16 +317,16 @@ void j1App::RealSave() const
 	node.append_child("Textures");
 	node.append_child("Window");
 	//Todo se guarda en un xml_document como una cadena de strings.
-																//<?xml version="1.0"?>		Append_child coje a node y crea un hijo pero no se asigna node al nuevo hijo.
+	//<?xml version="1.0"?>		Append_child coje a node y crea un hijo pero no se asigna node al nuevo hijo.
 	/*pugi::xml_node node = doc.append_child("node");			//<node>
 	node.append_child("patata");								//<patata />
 	node = node.append_child("metalica");						//<metalica gender="4">
 	node.append_attribute("gender") = 4;													Append_atribute crea un atributo al child que es apuntado por el nodo.
 	node.append_child("rock");									//<rock />
-																//	</metalica> </node>				*/
-	
+	//	</metalica> </node>				*/
+
 	doc.save_file("save_file_output.xml");						// se crea el .xml ponerlo al final para cargar todo el contenido de doc en el documento creado.
-	
+
 
 	LOG("GUARDANDO");
 	need_save = false;

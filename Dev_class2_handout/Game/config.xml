@@ -18,6 +18,4 @@
     <fullscreen_window value="false"/>
   </window>
 
-  <audio volume ="50"></audio>
-
 </config>
