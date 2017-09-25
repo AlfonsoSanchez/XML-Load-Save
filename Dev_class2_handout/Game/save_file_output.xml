@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <config>
-	<Audio>
-		<Audio volume="1335" />
-	</Audio>
-	<Input />
-	<Render>
-		<camera x="405" y="-146" />
-	</Render>
-	<Textures />
-	<Window />
+	<audio>
+		<audio volume="1335" />
+	</audio>
+	<input />
+	<renderer>
+		<camera x="400" y="146" />
+	</renderer>
+	<textures />
+	<window />
 </config>

@@ -154,18 +154,38 @@ void j1App::PrepareUpdate()
 void j1App::FinishUpdate()
 {
 	// !! TODO 1: This is a good place to call load / Save functions
+	pugi::xml_parse_result result = dataDocument.load_file("save_file_output.xml");// creo que se puede quitar.
+	dataNode = dataDocument.child("config");
+
 	if (need_save == true)
 	{
 		RealSave();
-		audio->RealSave();
-		render->RealSave();
+		p2List_item<j1Module*>* item;
+		item = modules.start;
+
+		while (item != NULL)
+		{
+			item->data->RealLoad(dataNode.child(item->data->name.GetString()));
+			item = item->next;
+		}
+		need_save = false;
 
 	}
 	if (need_load == true)
 	{
+		p2List_item<j1Module*>* item;
+		item = modules.start;
+
+		while (item != NULL)
+		{
+			item->data->RealLoad(dataNode.child(item->data->name.GetString()));
+			item = item->next;
+		}
+
 		RealLoad(dataNode);
 		render->RealLoad(dataNode);
 		audio->RealLoad(dataNode);
+		need_load = false;
 	}
 
 
@@ -306,26 +326,13 @@ void j1App::RealLoad(pugi::xml_node &data)
 }
 // !!TODO 7: Create a method to save the current state
 
-void j1App::RealSave() const
+void j1App::RealSave() 
 {
-	pugi::xml_document doc;
-
-	pugi::xml_node node = doc.append_child("config");
-	node.append_child("Audio");
-	node.append_child("Input");
-	node.append_child("Render");
-	node.append_child("Textures");
-	node.append_child("Window");
-	//Todo se guarda en un xml_document como una cadena de strings.
-	//<?xml version="1.0"?>		Append_child coje a node y crea un hijo pero no se asigna node al nuevo hijo.
-	/*pugi::xml_node node = doc.append_child("node");			//<node>
-	node.append_child("patata");								//<patata />
-	node = node.append_child("metalica");						//<metalica gender="4">
-	node.append_attribute("gender") = 4;													Append_atribute crea un atributo al child que es apuntado por el nodo.
-	node.append_child("rock");									//<rock />
-	//	</metalica> </node>				*/
-
-	doc.save_file("save_file_output.xml");						// se crea el .xml ponerlo al final para cargar todo el contenido de doc en el documento creado.
+	
+	if (pugi::xml_parse_result result = dataDocument.load_file("save_file_output.xml"))
+	{
+		dataNode = dataDocument.child("config");
+	}
 
 
 	LOG("GUARDANDO");

@@ -59,7 +59,7 @@ private:
 	mutable bool need_save = false;
 	bool need_load = false;
 
-	void RealSave()const;
+	void RealSave();
 	void RealLoad(pugi::xml_node& data);
 
 	// Load config file

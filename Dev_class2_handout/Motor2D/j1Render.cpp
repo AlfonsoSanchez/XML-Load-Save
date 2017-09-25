@@ -91,27 +91,26 @@ bool j1Render::CleanUp()
 // for now it will be camera's x and y
 void j1Render::RealLoad(pugi::xml_node& data)
 {
-	LOG("FUNCIONOOOOOO");
-	pugi::xml_document doc;
-	if (pugi::xml_parse_result result = doc.load_file("save_file_output.xml"))
-	{
-		data = doc.child("config").child("Render");
+		
 		camera.x = data.child("camera").attribute("x").as_int();
 		camera.y = data.child("camera").attribute("y").as_int();
-	}
+	
 }
 
 // TODO 8: Create a method to save the state
 // using append_child and append_attribute
-void j1Render::RealSave()
+void j1Render::RealSave(pugi::xml_node& data)
 {
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("save_file_output.xml");
-	pugi::xml_node node = doc.child("config").child("Render");
-	node = node.append_child("camera");
-	node.append_attribute("x").set_value(camera.x);
-	node.append_attribute("y").set_value(camera.y);
-	doc.save_file("save_file_output.xml");
+	if (data.child("camera") == NULL)
+	{
+		data.append_child("camera").append_attribute("x") = camera.x;
+		data.append_child("camera").append_attribute("y") = camera.y;
+	}
+	else
+	{
+		data.child("camera").attribute("x").set_value(camera.x);
+		data.child("camera").attribute("y").set_value(camera.y);
+	}
 }
 
 void j1Render::SetBackgroundColor(SDL_Color color)
