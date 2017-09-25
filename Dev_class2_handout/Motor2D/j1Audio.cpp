@@ -50,7 +50,7 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		active = false;
 		ret = true;
 	}
-	volume = config.attribute("volume").as_int();
+	volume = config.child("music").attribute("volume").as_int();
 	Mix_VolumeMusic(volume);
 	return ret;
 }
@@ -188,22 +188,24 @@ void j1Audio::VolumeDown()
 	volume--;
 	Mix_VolumeMusic(volume);
 }
-void j1Audio::RealSave()
+void j1Audio::RealSave(pugi::xml_node& data) const
 {
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("save_file_output.xml");
-	pugi::xml_node node = doc.child("config").child("Audio");
-	node = node.append_child("Audio");
-	node.append_attribute("volume").set_value(volume);
-	doc.save_file("save_file_output.xml");
+
+	if (data.child("music") == NULL)
+	{
+		data.append_child("music").append_attribute("volume") = volume;
+	}
+	else
+	{
+		data.child("music").attribute("volume").set_value(volume);	
+	}
+
+
 }
 void j1Audio::RealLoad(pugi::xml_node& data)
 {
-	pugi::xml_document doc;
-	if (pugi::xml_parse_result result = doc.load_file("save_file_output.xml"))
-	{
-		data = doc.child("config").child("Audio").child("Audio");
-		volume = data.attribute("volume").as_int();
+	
+		volume = data.child("music").attribute("volume").as_int();
 		Mix_VolumeMusic(volume);
-	}
+	
 }

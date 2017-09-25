@@ -34,8 +34,8 @@ public:
 
 	void VolumeUp();
 	void VolumeDown();
-	virtual void RealSave();
-	virtual void RealLoad(pugi::xml_node&);
+	void RealSave(pugi::xml_node&) const;
+	void RealLoad(pugi::xml_node&);
 
 private:
 	int volume;
