@@ -39,8 +39,8 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
-	virtual void RealLoad(pugi::xml_node& data);
-	virtual void RealSave(pugi::xml_node& data);
+	 void RealLoad(pugi::xml_node& data);
+	 void RealSave(pugi::xml_node& data) const;
 public:
 
 	SDL_Renderer*	renderer;

@@ -99,7 +99,7 @@ void j1Render::RealLoad(pugi::xml_node& data)
 
 // TODO 8: Create a method to save the state
 // using append_child and append_attribute
-void j1Render::RealSave(pugi::xml_node& data)
+void j1Render::RealSave(pugi::xml_node& data) const
 {
 	if (data.child("camera") == NULL)
 	{

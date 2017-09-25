@@ -162,12 +162,14 @@ void j1App::FinishUpdate()
 		RealSave();
 		p2List_item<j1Module*>* item;
 		item = modules.start;
-
+		RealSave();
 		while (item != NULL)
 		{
-			item->data->RealLoad(dataNode.child(item->data->name.GetString()));
+			
+			item->data->RealSave(dataNode.child(item->data->name.GetString()));
 			item = item->next;
 		}
+		dataDocument.save_file("save_file_output.xml");
 		need_save = false;
 
 	}
@@ -175,16 +177,13 @@ void j1App::FinishUpdate()
 	{
 		p2List_item<j1Module*>* item;
 		item = modules.start;
-
+		RealLoad();
 		while (item != NULL)
 		{
 			item->data->RealLoad(dataNode.child(item->data->name.GetString()));
 			item = item->next;
 		}
 
-		RealLoad(dataNode);
-		render->RealLoad(dataNode);
-		audio->RealLoad(dataNode);
 		need_load = false;
 	}
 
@@ -317,7 +316,7 @@ void j1App::Load()
 
 // !! TODO 4: Create a method to actually load an xml file
 // then call all the modules to load themselves
-void j1App::RealLoad(pugi::xml_node &data)
+void j1App::RealLoad()
 {
 	LOG("Cargando");
 

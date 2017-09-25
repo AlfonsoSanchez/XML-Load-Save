@@ -60,7 +60,7 @@ public:
 	}
 
 	// !!TODO 2: Create new virtual methods to Load and Save
-	virtual void RealSave(pugi::xml_node& node) const { };
+	virtual void RealSave(pugi::xml_node& node)const { };
 	virtual void RealLoad(pugi::xml_node& node) { };
 
 public:

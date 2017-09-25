@@ -60,7 +60,7 @@ private:
 	bool need_load = false;
 
 	void RealSave();
-	void RealLoad(pugi::xml_node& data);
+	void RealLoad();
 
 	// Load config file
 	bool LoadConfig();

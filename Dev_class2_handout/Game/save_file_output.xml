@@ -5,7 +5,7 @@
 	</audio>
 	<input />
 	<renderer>
-		<camera x="400" y="146" />
+		<camera x="0" y="391" />
 	</renderer>
 	<textures />
 	<window />
