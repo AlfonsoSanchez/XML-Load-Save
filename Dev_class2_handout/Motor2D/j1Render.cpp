@@ -104,7 +104,7 @@ void j1Render::RealSave(pugi::xml_node& data) const
 	if (data.child("camera") == NULL)
 	{
 		data.append_child("camera").append_attribute("x") = camera.x;
-		data.append_child("camera").append_attribute("y") = camera.y;
+		data.child("camera").append_attribute("y") = camera.y;
 	}
 	else
 	{

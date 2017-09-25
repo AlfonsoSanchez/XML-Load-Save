@@ -155,17 +155,20 @@ void j1App::FinishUpdate()
 {
 	// !! TODO 1: This is a good place to call load / Save functions
 	pugi::xml_parse_result result = dataDocument.load_file("save_file_output.xml");// creo que se puede quitar.
-	dataNode = dataDocument.child("config");
+
 
 	if (need_save == true)
 	{
 		RealSave();
 		p2List_item<j1Module*>* item;
 		item = modules.start;
-		RealSave();
+		
 		while (item != NULL)
 		{
-			
+			if (dataNode.child(item->data->name.GetString()) == NULL)
+			{
+				dataNode.append_child(item->data->name.GetString());
+			}
 			item->data->RealSave(dataNode.child(item->data->name.GetString()));
 			item = item->next;
 		}
@@ -319,6 +322,10 @@ void j1App::Load()
 void j1App::RealLoad()
 {
 	LOG("Cargando");
+	if (pugi::xml_parse_result result = dataDocument.load_file("save_file_output.xml"))
+	{
+		dataNode = dataDocument.child("config");
+	}
 
 	need_load = false;
 
@@ -331,6 +338,10 @@ void j1App::RealSave()
 	if (pugi::xml_parse_result result = dataDocument.load_file("save_file_output.xml"))
 	{
 		dataNode = dataDocument.child("config");
+	}
+	else
+	{
+		dataNode = dataDocument.append_child("config");
 	}
 
 
